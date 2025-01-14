@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const { createCanvas, loadImage } = require('canvas');
 const app = express();

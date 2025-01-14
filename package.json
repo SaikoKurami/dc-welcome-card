@@ -7,8 +7,8 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "canvas": "^2.11.2",
-    "express": "^4.18.2"
+  "express": "^4.17.1",
+  "canvas": "^2.8.0"
   },
   "engines": {
     "node": ">=16.0.0"

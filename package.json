@@ -4,7 +4,7 @@
   "description": "A simple API to generate welcome cards.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "canvas": "^2.11.2",

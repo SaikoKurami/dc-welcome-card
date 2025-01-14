@@ -12,8 +12,8 @@
   "canvas": "^2.8.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "14.x"
   },
   "author": "SaikoKurami",
   "license": "MIT"
-}
+  },

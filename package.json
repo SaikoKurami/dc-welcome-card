@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "puppeteer-core": "10.1.0",  // Use compatible version with chrome-aws-lambda
+    "puppeteer-core": "10.1.0",
     "chrome-aws-lambda": "^10.0.0"
   }
 }

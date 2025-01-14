@@ -1,16 +1,18 @@
 {
-  "name": "puppeteer-welcome-card",
+  "name": "welcome-card-api",
   "version": "1.0.0",
-  "description": "A dynamic image generator for a welcome card using Puppeteer and Express",
+  "description": "A simple API to generate welcome cards.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
-  "author": "saikokurami",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.1",
-    "puppeteer-core": "10.1.0",
-    "chrome-aws-lambda": "^10.0.0"
-  }
+    "canvas": "^2.11.2",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "author": "SaikoKurami",
+  "license": "MIT"
 }

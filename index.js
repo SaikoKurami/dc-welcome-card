@@ -27,7 +27,7 @@ app.get('/welcomecard', async (req, res) => {
         ctx.save(); // Save the current state
         ctx.beginPath();
         ctx.arc(avatarX, avatarY, (avatarSize / 2) + avatarBorderSize, 0, Math.PI * 2); // Outer border circle
-        ctx.fillStyle = '#ffffff'; // Border color
+        ctx.fillStyle = '#937981'; // Border color
         ctx.fill();
         ctx.closePath();
         ctx.restore();

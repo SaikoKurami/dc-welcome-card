@@ -1,7 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core'); // Use puppeteer-core for cloud environments
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const chrome = require('chrome-aws-lambda'); // Required for using Puppeteer on Render
 
 const app = express();
 
@@ -11,7 +12,13 @@ app.use(express.static('public'));
 app.get('/welcomecard', async (req, res) => {
     const { background, text1, text2, text3, avatar } = req.query;
 
-    const browser = await puppeteer.launch();
+    // Launch Puppeteer with proper configuration for Render
+    const browser = await puppeteer.launch({
+        args: [...chrome.args, '--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: await chrome.executablePath,
+        headless: chrome.headless,
+    });
+
     const page = await browser.newPage();
 
     // Set the HTML content dynamically based on the query parameters

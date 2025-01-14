@@ -1,9 +1,6 @@
 const express = require('express');
-const { createCanvas, loadImage, registerFont } = require('canvas');
+const { createCanvas, loadImage } = require('canvas');
 const app = express();
-
-// Register custom font
-registerFont('./fonts/DelaSukoGothicOne-R.otf', { family: 'DelaSukoGothic' });
 
 app.get('/welcomecard', async (req, res) => {
     const { background, text1, text2, text3, avatar } = req.query;
@@ -30,8 +27,8 @@ app.get('/welcomecard', async (req, res) => {
         ctx.save(); // Save the current state
         ctx.beginPath();
         ctx.arc(avatarX, avatarY, (avatarSize / 2) + avatarBorderSize, 0, Math.PI * 2); // Outer border circle
-        ctx.fillStyle = '#937981'; // Set the border color
-        ctx.fill(); // Fill the circle with the border color
+        ctx.fillStyle = '#937981'; // Border color
+        ctx.fill();
         ctx.closePath();
         ctx.restore();
 
@@ -41,7 +38,7 @@ app.get('/welcomecard', async (req, res) => {
         ctx.beginPath();
         ctx.arc(avatarX, avatarY, avatarSize / 2, 0, Math.PI * 2); // Circular clipping
         ctx.closePath();
-        ctx.clip(); // Apply clipping
+        ctx.clip();
         ctx.drawImage(
             avatarImage,
             avatarX - avatarSize / 2,
@@ -51,20 +48,20 @@ app.get('/welcomecard', async (req, res) => {
         );
         ctx.restore(); // Restore the clipping state
 
-        // Add text with centering logic and custom font
-        ctx.font = '50px "DelaSukoGothic"'; // Custom font without bold
+        // Add text with centering logic and Arial font
+        ctx.font = '50px "Arial"'; // Using Arial font
         ctx.fillStyle = '#ffffff';
         const text1Width = ctx.measureText(decodeURIComponent(text1)).width;
         const textX1 = (canvas.width - text1Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text1), textX1, textY1);
 
-        ctx.font = '30px "DelaSukoGothic"'; // Custom font without bold
+        ctx.font = '30px "Arial"'; // Using Arial font
         ctx.fillStyle = '#be9ca8';
         const text2Width = ctx.measureText(decodeURIComponent(text2)).width;
         const textX2 = (canvas.width - text2Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text2), textX2, textY2);
 
-        ctx.font = '17px "DelaSukoGothic"'; // Custom font without bold
+        ctx.font = '17px "Arial"'; // Using Arial font
         ctx.fillStyle = '#ffffff';
         const text3Width = ctx.measureText(decodeURIComponent(text3)).width;
         const textX3 = (canvas.width - text3Width) / 2; // Center text

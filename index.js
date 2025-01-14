@@ -1,8 +1,7 @@
-const puppeteer = require('puppeteer-core'); // Use puppeteer-core for cloud environments
+const puppeteer = require('puppeteer-core');
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
-const chrome = require('chrome-aws-lambda'); // Required for using Puppeteer on Render
+const chrome = require('chrome-aws-lambda'); // Import chrome-aws-lambda
 
 const app = express();
 
@@ -12,11 +11,11 @@ app.use(express.static('public'));
 app.get('/welcomecard', async (req, res) => {
     const { background, text1, text2, text3, avatar } = req.query;
 
-    // Launch Puppeteer with proper configuration for Render
+    // Launch Puppeteer with the correct executable path and arguments for cloud environments
     const browser = await puppeteer.launch({
-        args: [...chrome.args, '--no-sandbox', '--disable-setuid-sandbox'],
-        executablePath: await chrome.executablePath,
-        headless: chrome.headless,
+        executablePath: await chrome.executablePath, // Path to Chromium provided by chrome-aws-lambda
+        args: chrome.args,  // Arguments suitable for cloud (headless, etc.)
+        headless: chrome.headless,  // Ensure headless mode for cloud deployment
     });
 
     const page = await browser.newPage();
@@ -26,7 +25,6 @@ app.get('/welcomecard', async (req, res) => {
     <html>
         <head>
             <style>
-                /* Importing custom font from Google Fonts */
                 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
                 
                 body {
@@ -44,7 +42,7 @@ app.get('/welcomecard', async (req, res) => {
                 }
                 h1, h2, h3 {
                     font-size: 50px;
-                    font-weight: 600;  /* Bold weight for titles */
+                    font-weight: 600;
                 }
                 img {
                     border-radius: 50%;

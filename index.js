@@ -1,5 +1,6 @@
 const express = require('express');
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas, loadImage, registerFont } = require('canvas');
+const path = require('path');
 const app = express();
 
 app.get('/welcomecard', async (req, res) => {
@@ -48,21 +49,21 @@ app.get('/welcomecard', async (req, res) => {
         );
         ctx.restore(); // Restore the clipping state
 
-        // Add text with centering logic and Arial font
-        ctx.font = '50px "Arial"'; // Using Arial font
-        ctx.fillStyle = '#ffffff';
+        // Add text with centering logic and default font
+        ctx.font = '50px Arial'; // Default system font
+        ctx.fillStyle = '#ffffff'; // Ensure text color is set
         const text1Width = ctx.measureText(decodeURIComponent(text1)).width;
         const textX1 = (canvas.width - text1Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text1), textX1, textY1);
 
-        ctx.font = '30px "Arial"'; // Using Arial font
-        ctx.fillStyle = '#be9ca8';
+        ctx.font = '30px Arial'; // Default system font
+        ctx.fillStyle = '#be9ca8'; // Text color
         const text2Width = ctx.measureText(decodeURIComponent(text2)).width;
         const textX2 = (canvas.width - text2Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text2), textX2, textY2);
 
-        ctx.font = '17px "Arial"'; // Using Arial font
-        ctx.fillStyle = '#ffffff';
+        ctx.font = '17px Arial'; // Default system font
+        ctx.fillStyle = '#ffffff'; // Text color
         const text3Width = ctx.measureText(decodeURIComponent(text3)).width;
         const textX3 = (canvas.width - text3Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text3), textX3, textY3);

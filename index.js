@@ -23,20 +23,29 @@ app.get('/welcomecard', async (req, res) => {
         const bgImage = await loadImage(background);
         ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
+        // Load and draw the avatar
+        const avatarImage = await loadImage(avatar);
+
+        // Check if the avatar image has been loaded properly
+        if (!avatarImage.complete || avatarImage.width === 0) {
+            console.error('Avatar image failed to load');
+            res.status(500).send('Avatar image failed to load');
+            return;
+        }
+
         // Draw the avatar border
         ctx.save(); // Save the current state
         ctx.beginPath();
         ctx.arc(avatarX, avatarY, (avatarSize / 2) + avatarBorderSize, 0, Math.PI * 2); // Outer border circle
-        ctx.fillStyle = '#937981'; // Border color
+        ctx.fillStyle = '#937981'; // Border color (ensure the color is valid)
         ctx.fill();
         ctx.closePath();
         ctx.restore();
 
-        // Load and draw the avatar
-        const avatarImage = await loadImage(avatar);
+        // Draw the avatar with circular clipping
         ctx.save(); // Save the current state
         ctx.beginPath();
-        ctx.arc(avatarX, avatarY, avatarSize / 2, 0, Math.PI * 2); // Circular clipping
+        ctx.arc(avatarX, avatarY, avatarSize / 2, 0, Math.PI * 2); // Circular clipping path
         ctx.closePath();
         ctx.clip();
         ctx.drawImage(
@@ -48,20 +57,20 @@ app.get('/welcomecard', async (req, res) => {
         );
         ctx.restore(); // Restore the clipping state
 
-        // Add text with centering logic and custom font
-        ctx.font = 'bold 50px "Verdana"'; // Custom font
+        // Add text with centering logic and custom font (using Arial temporarily)
+        ctx.font = 'bold 50px "Arial"'; // Using Arial font temporarily
         ctx.fillStyle = '#ffffff';
         const text1Width = ctx.measureText(decodeURIComponent(text1)).width;
         const textX1 = (canvas.width - text1Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text1), textX1, textY1);
 
-        ctx.font = 'bold 30px "Verdana"'; // Custom font
+        ctx.font = 'bold 30px "Arial"'; // Using Arial font temporarily
         ctx.fillStyle = '#be9ca8';
         const text2Width = ctx.measureText(decodeURIComponent(text2)).width;
         const textX2 = (canvas.width - text2Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text2), textX2, textY2);
 
-        ctx.font = 'bold 17px "Verdana"'; // Custom font
+        ctx.font = 'bold 17px "Arial"'; // Using Arial font temporarily
         ctx.fillStyle = '#ffffff';
         const text3Width = ctx.measureText(decodeURIComponent(text3)).width;
         const textX3 = (canvas.width - text3Width) / 2; // Center text
@@ -71,6 +80,7 @@ app.get('/welcomecard', async (req, res) => {
         res.setHeader('Content-Type', 'image/png');
         canvas.createPNGStream().pipe(res);
     } catch (error) {
+        console.error('Error generating image:', error);
         res.status(500).send('Error generating image: ' + error.message);
     }
 });

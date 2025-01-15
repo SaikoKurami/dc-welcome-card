@@ -5,7 +5,7 @@ const app = express();
 app.get('/welcomecard', async (req, res) => {
     const { background, text1, text2, text3, avatar } = req.query;
 
-    const canvas = createCanvas(1024, 500); // Width (1024) and height (500)
+    const canvas = createCanvas(1000, 500); // Width (1024) and height (500)
     const ctx = canvas.getContext('2d');
     
     // Define position variables
@@ -15,7 +15,7 @@ app.get('/welcomecard', async (req, res) => {
     const avatarY = canvas.height / 2 - 90; // Slightly above center
 
     const textY1 = 310; // Y-coordinate for the first line of text
-    const textY2 = textY1 + 50; // Spacing for the second line
+    const textY2 = textY1 + 55; // Spacing for the second line
     const textY3 = textY2 + 40; // Spacing for the third line
 
     try {
@@ -49,23 +49,37 @@ app.get('/welcomecard', async (req, res) => {
         ctx.restore(); // Restore the clipping state
 
         // Add text with centering logic
-        ctx.font = "normal 900 50px Unknown, sans-serif"; // Use bold weight with multiple font options
+        ctx.font = "normal 900 50px Verdana"; // Use bold weight with multiple font options
         ctx.fillStyle = "rgb(255, 255, 255)"; // White in RGB
         const text1Width = ctx.measureText(decodeURIComponent(text1)).width;
         const textX1 = (canvas.width - text1Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text1), textX1, textY1);
 
-        ctx.font = "normal 900 30px Unknown, sans-serif"; // Use bold weight with multiple font options
+        ctx.font = "normal 900 40px Verdana"; // Use bold weight with multiple font options
         ctx.fillStyle = "rgb(190, 156, 168)"; // #be9ca8 in RGB
         const text2Width = ctx.measureText(decodeURIComponent(text2)).width;
         const textX2 = (canvas.width - text2Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text2), textX2, textY2);
 
-        ctx.font = "normal 900 17px Unknown, sans-serif"; // Use bold weight with multiple font options
-        ctx.fillStyle = "rgb(255, 255, 255)"; // White in RGB
-        const text3Width = ctx.measureText(decodeURIComponent(text3)).width;
-        const textX3 = (canvas.width - text3Width) / 2; // Center text
-        ctx.fillText(decodeURIComponent(text3), textX3, textY3);
+    // Function to draw text with letter spacing
+    function drawTextWithSpacing(ctx, text, x, y, letterSpacing) {
+        let currentX = x;
+        for (const char of text) {
+            ctx.fillText(char, currentX, y);
+            currentX += ctx.measureText(char).width + letterSpacing;
+        }
+    }
+
+    // Modify the existing text3 rendering logic
+    ctx.font = "normal 900 17px Verdana"; // Use bold weight with multiple font options
+    ctx.fillStyle = "rgb(255, 255, 255)"; // White in RGB
+    const letterSpacing = 4; // Adjust spacing between letters as needed
+    const text3Decoded = decodeURIComponent(text3);
+    const text3Width =
+        Array.from(text3Decoded).reduce((width, char) => width + ctx.measureText(char).width, 0) +
+        letterSpacing * (text3Decoded.length - 1);
+    const textX3 = (canvas.width - text3Width) / 2; // Center text
+    drawTextWithSpacing(ctx, text3Decoded, textX3, textY3, letterSpacing);
 
         // Send the image as response
         res.setHeader('Content-Type', 'image/png');

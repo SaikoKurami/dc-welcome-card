@@ -47,24 +47,21 @@ app.get('/welcomecard', async (req, res) => {
             avatarSize
         );
         ctx.restore(); // Restore the clipping state
-        
-         // Register the custom font
-         registerFont("./fonts/DelaSuko.otf", { family: "DelaSuko" });
-        
+
         // Add text with centering logic
-        ctx.font = "50px DelaSuko"; // Use bold weight with multiple font options
+        ctx.font = "normal 900 50px Unknown, sans-serif"; // Use bold weight with multiple font options
         ctx.fillStyle = "rgb(255, 255, 255)"; // White in RGB
         const text1Width = ctx.measureText(decodeURIComponent(text1)).width;
         const textX1 = (canvas.width - text1Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text1), textX1, textY1);
 
-        ctx.font = "30px DelaSuko"; // Use bold weight with multiple font options
+        ctx.font = "normal 900 30px Unknown, sans-serif"; // Use bold weight with multiple font options
         ctx.fillStyle = "rgb(190, 156, 168)"; // #be9ca8 in RGB
         const text2Width = ctx.measureText(decodeURIComponent(text2)).width;
         const textX2 = (canvas.width - text2Width) / 2; // Center text
         ctx.fillText(decodeURIComponent(text2), textX2, textY2);
 
-        ctx.font = " 17px DelaSuko"; // Use bold weight with multiple font options
+        ctx.font = "normal 900 17px Unknown, sans-serif"; // Use bold weight with multiple font options
         ctx.fillStyle = "rgb(255, 255, 255)"; // White in RGB
         const text3Width = ctx.measureText(decodeURIComponent(text3)).width;
         const textX3 = (canvas.width - text3Width) / 2; // Center text
